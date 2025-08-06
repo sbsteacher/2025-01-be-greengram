@@ -31,7 +31,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                                                 , HttpHeaders headers
                                                                 , HttpStatusCode statusCode
                                                                 , WebRequest request) {
-        List<ValidationErrorResponse.ValidationError> errors = getValidationError(ex);
+        List<ValidationError> errors = getValidationError(ex);
         List<String> messages = errors.stream().map(item -> item.getMessage()).toList();
         StringBuilder sb = new StringBuilder();
         for(String message : messages){
@@ -43,9 +43,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                              .body(new ResultResponse<>(sb.toString(), errors.toString()));
     }
 
-    private List<ValidationErrorResponse.ValidationError> getValidationError(BindException e) {
+    private List<ValidationError> getValidationError(BindException e) {
         List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
-        return fieldErrors.stream().map(item -> ValidationErrorResponse.ValidationError.of(item)).toList();
+        return fieldErrors.stream().map(item -> ValidationError.of(item)).toList();
     }
 
 }
