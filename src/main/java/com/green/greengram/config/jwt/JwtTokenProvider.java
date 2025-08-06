@@ -2,8 +2,8 @@ package com.green.greengram.config.jwt;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.green.gallery_jwt_jpa.config.constants.ConstJwt;
-import com.green.gallery_jwt_jpa.config.model.JwtUser;
+import com.green.greengram.config.constants.ConstJwt;
+import com.green.greengram.config.model.JwtUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;

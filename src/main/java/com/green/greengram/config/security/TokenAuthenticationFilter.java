@@ -1,6 +1,6 @@
 package com.green.greengram.config.security;
 
-import com.green.gallery_jwt_jpa.config.jwt.JwtTokenManager;
+import com.green.greengram.config.jwt.JwtTokenManager;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,9 +1,10 @@
 package com.green.greengram.config.jwt;
 
-import com.green.gallery_jwt_jpa.config.constants.ConstJwt;
-import com.green.gallery_jwt_jpa.config.model.JwtUser;
-import com.green.gallery_jwt_jpa.config.model.UserPrincipal;
-import com.green.gallery_jwt_jpa.config.util.CookieUtils;
+
+import com.green.greengram.config.constants.ConstJwt;
+import com.green.greengram.config.model.JwtUser;
+import com.green.greengram.config.model.UserPrincipal;
+import com.green.greengram.config.util.CookieUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

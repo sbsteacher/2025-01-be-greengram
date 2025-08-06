@@ -17,5 +17,5 @@ import java.time.LocalDateTime;
 public class CreatedAt {
     @CreatedDate
     @Column(nullable = false) //NOT NULL
-    private LocalDateTime created;
+    private LocalDateTime createdAt;
 }
