@@ -32,14 +32,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                                                 , HttpStatusCode statusCode
                                                                 , WebRequest request) {
         List<ValidationErrorResponse.ValidationError> errors = getValidationError(ex);
-        String json = null;
-        try {
-            json = objectMapper.writeValueAsString(errors);
-        } catch (Exception e) {
-            e.printStackTrace();
+        List<String> messages = errors.stream().map(item -> item.getMessage()).toList();
+        StringBuilder sb = new StringBuilder();
+        for(String message : messages){
+            sb.append(message);
+            sb.append("\n");
         }
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                             .body(new ResultResponse<>(errors.toString(), json));
+                             .body(new ResultResponse<>(sb.toString(), errors.toString()));
     }
 
     private List<ValidationErrorResponse.ValidationError> getValidationError(BindException e) {
