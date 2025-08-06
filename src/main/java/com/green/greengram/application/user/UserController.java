@@ -23,7 +23,7 @@ public class UserController {
                                   , @RequestPart(required = false) MultipartFile pic) {
         log.info("req: {}", req);
         log.info("pic: {}", pic != null ? pic.getOriginalFilename() : pic);
-        return new ResultResponse<Integer>("", 1);
+        return new ResultResponse<>("", 1);
     }
 
 }
