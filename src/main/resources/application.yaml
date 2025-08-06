@@ -26,6 +26,8 @@ spring:
     username: root
     password: green502
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+  jackson:
+    default-property-inclusion: non_null # 응답 JSON에서 null인 속성은 제외
   jpa:
     database: mysql
     defer-datasource-initialization: true #JPA 테이블 생성 이후 data.sql
