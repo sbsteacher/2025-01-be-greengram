@@ -1,0 +1,52 @@
+constants:
+  file:
+    upload-directory: D:/ParkDoheum/2025/2025-04-msa/upload/greengram
+  jwt:
+    issuer: green502@green.com #토큰 발행자
+    bearer-format: JWT
+
+    claim-key: signedUser
+    secret-key: DaeguGreenArtAcademyClass502MsaClassFightingkkkkkk
+
+    access-token-cookie-name: access-token
+    access-token-cookie-path: / #모든 경로에서 access-token값이 넘어온다.
+    access-token-cookie-validity-seconds: 900 # 15분 (s) 60 * 15
+    access-token-validity-milliseconds: 900_000 # 15분 (ms) 60 * 15 * 1000
+
+    refresh-token-cookie-name: refresh-token
+    refresh-token-cookie-path: /api/v1/account/reissue #해당 path때만 refresh-token값이 넘어온다.
+    refresh-token-cookie-validity-seconds: 1_296_000 # 15일 (s) 60 * 60 * 24 * 15
+    refresh-token-validity-milliseconds: 1_296_000_000 # 15일 (ms) 60 * 60 * 24 * 15 * 1000
+
+spring:
+  application:
+    name: greengram
+  datasource:
+    url: jdbc:log4jdbc:mariadb://localhost/gallery_jpa
+    username: root
+    password: green502
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+  jpa:
+    database: mysql
+    defer-datasource-initialization: true #JPA 테이블 생성 이후 data.sql
+    hibernate:
+      #  ddl-auto: update #테이블은 없는데 entity가 존재하면 create한다.
+      ddl-auto: create #프로젝트 실행시마다 테이블을 모두 drop 후 create한다.
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 20
+        format_sql: true #쿼리문 로그를 찍어줄 때 보기편하게 포맷팅
+        order_updates: true
+        show_sql: true
+  servlet:
+    multipart:
+      max-file-size: 15MB
+  sql:
+    init:
+      mode: always
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: mappers/**/*.xml
