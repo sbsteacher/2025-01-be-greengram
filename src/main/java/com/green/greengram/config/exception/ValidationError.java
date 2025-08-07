@@ -1,11 +1,12 @@
 package com.green.greengram.config.exception;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.validation.FieldError;
 
 @Getter
 @Builder
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ValidationError {
     private String field;
     private String message;
