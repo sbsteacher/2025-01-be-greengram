@@ -1,14 +1,12 @@
 package com.green.greengram.application.user;
 
+import com.green.greengram.application.user.model.UserSignInReq;
 import com.green.greengram.application.user.model.UserSignUpReq;
 import com.green.greengram.config.model.ResultResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
@@ -27,4 +25,9 @@ public class UserController {
         return new ResultResponse<>("", 1);
     }
 
+    @PostMapping("/sign-in")
+    public ResultResponse<?> signIn(@Valid @RequestBody UserSignInReq req) {
+        log.info("req: {}", req);
+        return null;
+    }
 }

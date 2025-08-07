@@ -1,5 +1,7 @@
 package com.green.greengram.application.user;
 
+import com.green.greengram.application.user.model.UserSignInDto;
+import com.green.greengram.application.user.model.UserSignInReq;
 import com.green.greengram.application.user.model.UserSignUpReq;
 import com.green.greengram.config.util.ImgUploadManager;
 import com.green.greengram.entity.User;
@@ -10,6 +12,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
 @Service
@@ -35,5 +38,10 @@ public class UserService {
             String savedFileName = imgUploadManager.saveProfilePic(user.getUserId(), pic);
             user.setPic(savedFileName);
         }
+    }
+
+    public UserSignInDto signIn(UserSignInReq req) {
+
+        return null;
     }
 }
