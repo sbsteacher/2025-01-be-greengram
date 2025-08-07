@@ -14,19 +14,9 @@ import java.util.UUID;
 @Slf4j
 @Component //빈등록
 public class MyFileUtils {
-    private final String uploadDirectory;
-
-    public String getUploadDirectory() {
-        return uploadDirectory;
-    }
-
-    public MyFileUtils(@Value("${constants.file.upload-directory}") String uploadDirectory) {
-        log.info("MyFileUtils - 생성자: {}", uploadDirectory);
-        this.uploadDirectory = uploadDirectory;
-    }
 
     public void makeFolders(String path) {
-        File file = new File(uploadDirectory, path);
+        File file = new File(path);
         if(!file.exists()) {
             file.mkdirs();
         }
@@ -55,7 +45,7 @@ public class MyFileUtils {
 
     //파일을 원하는 경로에 저장
     public void transferTo(MultipartFile mf, String path) throws IOException {
-        Path transPath = Paths.get(String.format("%s/%s", uploadDirectory, path)).toAbsolutePath();
+        Path transPath = Paths.get(path).toAbsolutePath();
         log.info("transPath: {}", transPath.toString());
         mf.transferTo(transPath.toFile());
     }

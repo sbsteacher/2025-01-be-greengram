@@ -1,6 +1,9 @@
 constants:
   file:
     upload-directory: D:/ParkDoheum/2025/2025-04-msa/upload/greengram
+    feed-pic: /feed
+    profile-pic: /profile
+
   jwt:
     issuer: green502@green.com #토큰 발행자
     bearer-format: JWT
