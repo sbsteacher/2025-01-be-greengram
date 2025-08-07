@@ -23,6 +23,7 @@ public class UserService {
         user.setNickName(req.getNickName());
         user.setUid(req.getUid());
         user.setUpw(hashedPassword);
+        user.addUserRoles(req.getRoles());
 
         userRepository.save(user);
     }
