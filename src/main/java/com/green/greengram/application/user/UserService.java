@@ -49,7 +49,7 @@ public class UserService {
 
     public UserSignInDto signIn(UserSignInReq req) {
         User user = userRepository.findByUid(req.getUid());
-        if(user == null || passwordEncoder.matches(req.getUpw(), user.getUpw())) {
+        if(user == null || !passwordEncoder.matches(req.getUpw(), user.getUpw())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "아이디/비밀번호를 확인해 주세요.");
         }
         //user 튜플을 가져왔는데 user_role에 저장되어 있는 데이터까지 가져올 수 있었던건 양방향 관계 설정을 했기 때문에 가능
