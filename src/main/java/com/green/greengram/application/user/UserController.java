@@ -5,6 +5,7 @@ import com.green.greengram.application.user.model.UserSignInReq;
 import com.green.greengram.application.user.model.UserSignUpReq;
 import com.green.greengram.config.jwt.JwtTokenManager;
 import com.green.greengram.config.model.ResultResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,4 +37,17 @@ public class UserController {
         jwtTokenManager.issue(response, userSignInDto.getJwtUser());
         return new ResultResponse<>("sign-in 성공", userSignInDto.getUserSignInRes());
     }
+
+    @PostMapping("/sign-out")
+    public ResultResponse<?> signOut(HttpServletResponse response) {
+        jwtTokenManager.signOut(response);
+        return new ResultResponse<>("sign-out 성공", null);
+    }
+
+    @PostMapping("/reissue")
+    public ResultResponse<?> reissue(HttpServletResponse response, HttpServletRequest request) {
+        jwtTokenManager.reissue(request, response);
+        return new ResultResponse<>("AccessToken 재발행 성공", null);
+    }
+
 }
