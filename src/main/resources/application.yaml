@@ -36,7 +36,7 @@ spring:
     defer-datasource-initialization: true #JPA 테이블 생성 이후 data.sql
     hibernate:
       #  ddl-auto: update #테이블은 없는데 entity가 존재하면 create한다.
-      ddl-auto: create #프로젝트 실행시마다 테이블을 모두 drop 후 create한다.
+      ddl-auto: update #프로젝트 실행시마다 테이블을 모두 drop 후 create한다.
     properties:
       hibernate:
         jdbc:

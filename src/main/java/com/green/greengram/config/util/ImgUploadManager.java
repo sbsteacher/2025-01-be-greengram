@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -18,15 +19,15 @@ public class ImgUploadManager {
     private final ConstFile constFile;
     private final MyFileUtils myFileUtils;
 
-    public void saveFeedPic() {
+    public void saveFeedPics(long feedId, List<MultipartFile> feedPicFiles) {
 
     }
 
 
     //저장한 파일명 리턴
-    public String saveProfilePic(long id, MultipartFile profilePicFile) {
+    public String saveProfilePic(long userId, MultipartFile profilePicFile) {
         //폴더 생성
-        String directory = String.format("%s/%s/%d", constFile.getUploadDirectory(), constFile.getProfilePic(), id);
+        String directory = String.format("%s/%s/%d", constFile.getUploadDirectory(), constFile.getProfilePic(), userId);
         myFileUtils.makeFolders(directory);
 
         String randomFileName = myFileUtils.makeRandomFileName(profilePicFile);
