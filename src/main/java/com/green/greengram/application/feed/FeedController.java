@@ -27,6 +27,6 @@ public class FeedController {
         log.info("signedUserId: {}", userPrincipal.getSignedUserId());
         log.info("req: {}", req);
         log.info("pics.size(): {}", pics.size());
-        return new ResultResponse<>("", null);
+        return new ResultResponse<>("피드 등록 완료", null);
     }
 }

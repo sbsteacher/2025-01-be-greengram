@@ -5,6 +5,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -22,4 +25,22 @@ public class Feed extends UpdatedAt {
 
     @Column(length = 1_000)
     private String contents;
+
+    //양방향 관계 설정
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FeedPic> feedPicList = new ArrayList<>(1);
+
+    public void addFeedPics(List<String> picFileNames) {
+        for(String picFileName : picFileNames) {
+            FeedPicIds feedPicIds = FeedPicIds.builder()
+                                              .feedId(this.feedId)
+                                              .pic(picFileName)
+                                              .build();
+            FeedPic feedPic = FeedPic.builder()
+                                     .feedPicIds(feedPicIds)
+                                     .feed(this)
+                                     .build();
+            this.feedPicList.add(feedPic);
+        }
+    }
 }
