@@ -1,6 +1,7 @@
 package com.green.greengram.application.feed;
 
 import com.green.greengram.application.feed.model.FeedPostReq;
+import com.green.greengram.config.util.ImgUploadManager;
 import com.green.greengram.entity.Feed;
 import com.green.greengram.entity.User;
 import jakarta.transaction.Transactional;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FeedService {
     private final FeedRepository feedRepository;
+    private final ImgUploadManager imgUploadManager;
 
     @Transactional
     public void postFeed(long signedUserId, FeedPostReq req, List<MultipartFile> pics) {
@@ -30,6 +32,8 @@ public class FeedService {
 
         feedRepository.save(feed); //feed객체는 영속성을 갖는다.
 
+        List<String> fileNames = imgUploadManager.saveFeedPics(feed.getFeedId(), pics);
 
+        feed.addFeedPics(fileNames);
     }
 }

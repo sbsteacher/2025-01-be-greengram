@@ -27,6 +27,7 @@ public class Feed extends UpdatedAt {
     private String contents;
 
     //양방향 관계 설정
+    @Builder.Default //builder 패턴 이용시 null이 되는데 이 애노테이션을 주면 주소값 생성됨
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FeedPic> feedPicList = new ArrayList<>(1);
 
