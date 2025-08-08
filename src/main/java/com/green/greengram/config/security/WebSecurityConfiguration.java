@@ -1,5 +1,6 @@
 package com.green.greengram.config.security;
 
+import com.green.greengram.config.enumcode.model.EnumUserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,9 +37,8 @@ public class WebSecurityConfiguration {
                    .csrf(csrfSpec -> csrfSpec.disable()) // BE - csrf라는 공격이 있는데 공격을 막는 것이 기본으로 활성화 되어 있는데
                                                         // 세션을 이용한 공격이다. 세션을 어차피 안 쓰니까 비활성화
                    .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource())) // ⭐️⭐️⭐️
-                   .authorizeHttpRequests(req -> req.requestMatchers("/api/v1/cart").authenticated()
-                                                    .requestMatchers("/api/v1/order").authenticated()
-                                                    .requestMatchers(HttpMethod.POST, "/api/v1/item").hasRole("USER_2")
+                   .authorizeHttpRequests(req -> req.requestMatchers(HttpMethod.POST, "/api/feed").hasAnyRole(EnumUserRole.USER_1.name())
+                                                    .requestMatchers("/api/feed").authenticated()
                                                     .anyRequest().permitAll()
                    )
 

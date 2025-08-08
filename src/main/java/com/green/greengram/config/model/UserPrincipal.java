@@ -14,11 +14,11 @@ import java.util.List;
 @Slf4j
 @Getter
 public class UserPrincipal implements UserDetails {
-    private final long memberId;
+    private final long signedUserId;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(long memberId, List<EnumUserRole> roles) {
-        this.memberId = memberId;
+    public UserPrincipal(long signedUserId, List<EnumUserRole> roles) {
+        this.signedUserId = signedUserId;
         List<SimpleGrantedAuthority> list = new ArrayList<>();
         for(EnumUserRole role : roles){
             String roleName = String.format("ROLE_%s", role.name());
