@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.greengram.application.feed.FeedMapper">
-
+    <select id="findAllLimitedTo">
+        SELECT f.feed_id, f.contents, f.location, f.created_at, f.writer_user_id
+             , u.uid AS writerUid, u.nick_name AS writerNickName, u.pic AS writerPic
+          FROM feed AS f
+         INNER JOIN user AS u
+            ON u.user_id = f.writer_user_id
+         ORDER BY f.feed_id DESC
+         LIMIT #{startIdx}, #{size}
+    </select>
 </mapper>
