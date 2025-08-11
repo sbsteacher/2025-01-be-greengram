@@ -16,5 +16,5 @@ public class FeedGetRes {
     private String writerUid;
     private String writerNickName;
     private String writerPic;
-    //private List<String> pics;
+    private List<String> pics;
 }

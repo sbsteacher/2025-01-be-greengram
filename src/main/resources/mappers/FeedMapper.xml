@@ -10,4 +10,10 @@
          ORDER BY f.feed_id DESC
          LIMIT #{startIdx}, #{size}
     </select>
+
+    <select id="findAllPicByFeedId">
+        SELECT pic FROM feed_pic
+         WHERE feed_id = #{feedId}
+    </select>
+
 </mapper>

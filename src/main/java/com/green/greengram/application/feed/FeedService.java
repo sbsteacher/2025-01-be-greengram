@@ -44,7 +44,12 @@ public class FeedService {
     }
 
     public List<FeedGetRes> getFeedList(FeedGetDto dto) {
-        return feedMapper.findAllLimitedTo(dto);
+        List<FeedGetRes> list = feedMapper.findAllLimitedTo(dto);
+        //각 피드에서 사진 가져오기
+        for(FeedGetRes feedGetRes : list) {
+            feedGetRes.setPics(feedMapper.findAllPicByFeedId(feedGetRes.getFeedId()));
+        }
+        return list;
     }
 
 }
