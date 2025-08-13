@@ -3,7 +3,9 @@ constants:
     upload-directory: D:/ParkDoheum/2025/2025-04-msa/upload/greengram
     feed-pic: /feed
     profile-pic: /profile
-
+  comment:
+    start-index: 0
+    need-for-view-count: 3 #피드 리스트를 뿌릴 때 실제로 피드당 보여지는 댓글 수
   jwt:
     issuer: green502@green.com #토큰 발행자
     bearer-format: JWT
