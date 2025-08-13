@@ -4,6 +4,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
 //쿠키에 데이터 담고 빼고 할 때 사용하는 객체
@@ -23,6 +24,15 @@ public class CookieUtils {
         cookie.setMaxAge(maxAge);
         cookie.setHttpOnly(true); //보안 쿠키 설정
         response.addCookie(cookie);
+//        ResponseCookie cookie = ResponseCookie.from(name, value)
+//                .path(path)
+//                //.sameSite("None") //secure가 true일때 동작한다.
+//                .httpOnly(true)
+//                .secure(false) //https일 때만 쿠키 전송된다.
+//                .maxAge(maxAge)
+//                .build();
+//
+//        response.addHeader("Set-Cookie", cookie.toString());
     }
 
     public String getValue(HttpServletRequest request, String name) {

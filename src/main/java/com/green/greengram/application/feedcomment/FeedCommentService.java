@@ -10,7 +10,9 @@ import com.green.greengram.entity.FeedComment;
 import com.green.greengram.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -46,5 +48,17 @@ public class FeedCommentService {
             commentList.remove(commentList.size() - 1); //마지막 아이템 삭제
         }
         return new FeedCommentGetRes(moreComment, commentList);
+    }
+
+    public void deleteFeedComment(long signedUserId, long feedCommentId) {
+        FeedComment feedComment = feedCommentRepository.findById(feedCommentId).orElseThrow( ()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "feed_comment_id를 확인해 주세요.") );
+
+        //본인이 작성한 댓글이 아니라면 exception 터트림 "본인이 작성한 댓글이 아닙니다."
+        if(signedUserId != feedComment.getUser().getUserId()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "본인이 작성한 댓글이 아닙니다.");
+        }
+
+        //댓글 삭제
+        feedCommentRepository.deleteById(feedCommentId);
     }
 }

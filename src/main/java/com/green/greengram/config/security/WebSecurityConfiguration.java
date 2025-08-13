@@ -37,11 +37,12 @@ public class WebSecurityConfiguration {
                    .csrf(csrfSpec -> csrfSpec.disable()) // BE - csrf라는 공격이 있는데 공격을 막는 것이 기본으로 활성화 되어 있는데
                                                         // 세션을 이용한 공격이다. 세션을 어차피 안 쓰니까 비활성화
                    .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource())) // ⭐️⭐️⭐️
-                   .authorizeHttpRequests(req -> req.requestMatchers(HttpMethod.POST, "/api/feed").hasAnyRole(EnumUserRole.USER_1.name())
-                                                    .requestMatchers("/api/feed", "/api/feed/like","/api/feed/comment").authenticated()
-                                                    .anyRequest().permitAll()
+                   .authorizeHttpRequests(req -> req
+                                       .requestMatchers(HttpMethod.POST, "/api/feed").hasAnyRole(EnumUserRole.USER_1.name())
+                                       .requestMatchers(HttpMethod.GET, "/api/user/profile").authenticated()
+                                       .requestMatchers("/api/feed", "/api/feed/like", "/api/feed/comment").authenticated()
+                                       .anyRequest().permitAll()
                    )
-
                    .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                    .exceptionHandling(e -> e.authenticationEntryPoint(tokenAuthenticationEntryPoint))
                    .build();

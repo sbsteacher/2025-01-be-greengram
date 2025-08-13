@@ -35,4 +35,11 @@ public class FeedCommentController {
                                   , feedCommentGetRes);
     }
 
+    @DeleteMapping
+    public ResultResponse<?> deleteFeedComment(@AuthenticationPrincipal UserPrincipal userPrincipal
+                                             , @RequestParam("feed_comment_id") Long feedCommentId) {
+
+        feedCommentService.deleteFeedComment(userPrincipal.getSignedUserId(), feedCommentId);
+        return new ResultResponse<>("댓글을 삭제하였습니다.", null);
+    }
 }

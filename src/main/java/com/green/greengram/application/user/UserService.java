@@ -1,10 +1,9 @@
 package com.green.greengram.application.user;
 
-import com.green.greengram.application.user.model.UserSignInDto;
-import com.green.greengram.application.user.model.UserSignInReq;
-import com.green.greengram.application.user.model.UserSignInRes;
-import com.green.greengram.application.user.model.UserSignUpReq;
+import com.green.greengram.application.user.model.*;
 import com.green.greengram.config.enumcode.model.EnumUserRole;
+import com.green.greengram.config.jwt.JwtTokenManager;
+import com.green.greengram.config.jwt.JwtTokenProvider;
 import com.green.greengram.config.model.JwtUser;
 import com.green.greengram.config.util.ImgUploadManager;
 import com.green.greengram.entity.User;
@@ -28,6 +27,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ImgUploadManager imgUploadManager;
+    private final JwtTokenManager jwtTokenManager;
+
 
     @Transactional
     public void signUp(UserSignUpReq req, MultipartFile pic) {
@@ -64,19 +65,23 @@ public class UserService {
 
         List<EnumUserRole> roles = user.getUserRoles().stream().map(item -> item.getUserRoleIds().getRoleCode()).toList();
 
-
         log.info("roles: {}", roles);
         JwtUser jwtUser = new JwtUser(user.getUserId(), roles);
 
+
         UserSignInRes userSignInRes = UserSignInRes.builder()
-                                                   .userId(user.getUserId()) //프로필 사진 표시 때 사용
-                                                   .nickName(user.getNickName() == null ? user.getUid() : user.getNickName())
-                                                   .pic(user.getPic()) //프로필 사진 표시 때 사용
-                                                   .build();
+                .userId(user.getUserId()) //프로필 사진 표시 때 사용
+                .nickName(user.getNickName() == null ? user.getUid() : user.getNickName())
+                .pic(user.getPic()) //프로필 사진 표시 때 사용
+                .build();
 
         return UserSignInDto.builder()
                             .jwtUser(jwtUser) //토큰 제작에 필요
                             .userSignInRes(userSignInRes) //FE에게 전달할 데이터
                             .build();
+    }
+
+    public UserProfileGetRes getProfileUser(UserProfileGetDto dto) {
+        return null;
     }
 }
