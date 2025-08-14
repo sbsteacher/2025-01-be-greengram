@@ -41,11 +41,20 @@ public class ImgUploadManager {
         return randomFileNames;
     }
 
+    private String makeProfileDirectoryPath(long userId) {
+        return String.format("%s/%s/%d",  constFile.getUploadDirectory(), constFile.getProfilePic(), userId);
+    }
+
+    //프로파일 유저 폴더 삭제
+    public void removeProfileDirectory(long userId) {
+        String directory = makeProfileDirectoryPath(userId);
+        myFileUtils.deleteFolder(directory, true);
+    }
 
     //저장한 파일명 리턴
     public String saveProfilePic(long userId, MultipartFile profilePicFile) {
         //폴더 생성
-        String directory = String.format("%s/%s/%d", constFile.getUploadDirectory(), constFile.getProfilePic(), userId);
+        String directory = makeProfileDirectoryPath(userId);
         myFileUtils.makeFolders(directory);
 
         String randomFileName = myFileUtils.makeRandomFileName(profilePicFile);
