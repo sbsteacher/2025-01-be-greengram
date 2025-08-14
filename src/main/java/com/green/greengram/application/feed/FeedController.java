@@ -50,6 +50,7 @@ public class FeedController {
                                           .signedUserId(userPrincipal.getSignedUserId())
                                           .startIdx((req.getPage() - 1) * req.getRowPerPage())
                                           .size(req.getRowPerPage())
+                                          .profileUserId(req.getProfileUserId())
                                           .build();
         List<FeedGetRes> result = feedService.getFeedList(feedGetDto);
         return new ResultResponse<>(String.format("rows: %d", result.size())
