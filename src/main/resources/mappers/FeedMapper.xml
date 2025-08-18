@@ -5,12 +5,19 @@
         SELECT f.feed_id, f.contents, f.location, f.created_at, f.writer_user_id
              , u.uid AS writerUid, u.nick_name AS writerNickName, u.pic AS writerPic
              , fl.feed_id IS NOT NULL AS isLike
+             , IFNULL(flc.likeCount, 0) AS likeCount
           FROM feed AS f
          INNER JOIN user AS u
             ON u.user_id = f.writer_user_id
           LEFT JOIN feed_like fl
             ON fl.feed_id = f.feed_id
            AND fl.user_id = #{signedUserId}
+          LEFT JOIN (
+                SELECT feed_id, COUNT(feed_id) AS likeCount
+                  FROM feed_like
+                 GROUP BY feed_id
+             ) flc
+            ON flc.feed_id = f.feed_id
          <if test="profileUserId != null">
              WHERE f.writer_user_id = #{profileUserId}
          </if>
