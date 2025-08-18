@@ -87,8 +87,7 @@ public class UserService {
     @Transactional
     public String patchProfilePic(long signedUserId, MultipartFile pic) {
         User user = userRepository.findById(signedUserId)
-                                  .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 사용자입니다."));
-
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 사용자입니다."));
         imgUploadManager.removeProfileDirectory(signedUserId);
         String savedFileName = imgUploadManager.saveProfilePic(signedUserId, pic);
         user.setPic(savedFileName);

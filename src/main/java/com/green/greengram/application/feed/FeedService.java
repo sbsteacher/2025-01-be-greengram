@@ -15,8 +15,10 @@ import com.green.greengram.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -66,6 +68,22 @@ public class FeedService {
             }
         }
         return list;
+    }
+
+    @Transactional
+    public void deleteFeed(long signedUserId, long feedId) {
+        Feed feed = feedRepository.findById(feedId)
+                                  .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "feed_id가 존재하지 않습니다."));
+        if(feed.getWriterUser().getUserId() != signedUserId) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "피드 삭제 권한이 없습니다.");
+        }
+        //해당 피드 좋아요 삭제
+
+        //해당 피드 댓글 삭제
+
+        //해당 피드 사진 폴더 삭제
+
+        feedRepository.delete(feed);
     }
 
 }
