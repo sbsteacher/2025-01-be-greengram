@@ -81,6 +81,7 @@ public class FeedService {
         if(feed.getWriterUser().getUserId() != signedUserId) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "피드 삭제 권한이 없습니다.");
         }
+
         //해당 피드 좋아요 삭제
         feedLikeRepository.deleteByIdFeedId(feedId);
 
