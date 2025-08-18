@@ -5,9 +5,11 @@ import com.green.greengram.application.feed.model.FeedGetRes;
 import com.green.greengram.application.feed.model.FeedPostReq;
 import com.green.greengram.application.feed.model.FeedPostRes;
 import com.green.greengram.application.feedcomment.FeedCommentMapper;
+import com.green.greengram.application.feedcomment.FeedCommentRepository;
 import com.green.greengram.application.feedcomment.model.FeedCommentGetReq;
 import com.green.greengram.application.feedcomment.model.FeedCommentGetRes;
 import com.green.greengram.application.feedcomment.model.FeedCommentItem;
+import com.green.greengram.application.feedlike.FeedLikeRepository;
 import com.green.greengram.config.constants.ConstComment;
 import com.green.greengram.config.util.ImgUploadManager;
 import com.green.greengram.entity.Feed;
@@ -28,9 +30,11 @@ import java.util.List;
 public class FeedService {
     private final FeedMapper feedMapper;
     private final FeedCommentMapper feedCommentMapper;
+    private final FeedLikeRepository feedLikeRepository;
     private final FeedRepository feedRepository;
     private final ImgUploadManager imgUploadManager;
     private final ConstComment constComment;
+    private final FeedCommentRepository feedCommentRepository;
 
     @Transactional
     public FeedPostRes postFeed(long signedUserId, FeedPostReq req, List<MultipartFile> pics) {
@@ -78,12 +82,16 @@ public class FeedService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "피드 삭제 권한이 없습니다.");
         }
         //해당 피드 좋아요 삭제
+        feedLikeRepository.deleteByIdFeedId(feedId);
 
         //해당 피드 댓글 삭제
+        feedCommentRepository.deleteByFeedFeedId(feedId);
+
+        //피드, 피드 사진 삭제
+        feedRepository.delete(feed);
 
         //해당 피드 사진 폴더 삭제
-
-        feedRepository.delete(feed);
+        imgUploadManager.removeFeedDirectory(feedId);
     }
 
 }

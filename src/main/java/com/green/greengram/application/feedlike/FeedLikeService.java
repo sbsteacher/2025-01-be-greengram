@@ -33,7 +33,7 @@ public class FeedLikeService {
             user.setUserId(signedUserId);
 
             FeedLike feedLikeSave = FeedLike.builder()
-                    .feedLikeIds(feedLikeIds)
+                    .id(feedLikeIds)
                     .user(user)
                     .feed(feed)
                     .build();

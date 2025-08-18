@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 public class FeedLike extends CreatedAt {
     @EmbeddedId
-    private FeedLikeIds feedLikeIds;
+    private FeedLikeIds id;
 
     @ManyToOne
     @MapsId("feedId")

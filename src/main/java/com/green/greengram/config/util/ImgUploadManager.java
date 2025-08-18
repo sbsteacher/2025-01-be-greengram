@@ -51,6 +51,16 @@ public class ImgUploadManager {
         myFileUtils.deleteFolder(directory, true);
     }
 
+    private String makeFeedDirectoryPath(long feedId) {
+        return String.format("%s/%s/%d",  constFile.getUploadDirectory(), constFile.getFeedPic(), feedId);
+    }
+
+    //피드 폴더 삭제
+    public void removeFeedDirectory(long feedId) {
+        String directory = makeFeedDirectoryPath(feedId);
+        myFileUtils.deleteFolder(directory, true);
+    }
+
     //저장한 파일명 리턴
     public String saveProfilePic(long userId, MultipartFile profilePicFile) {
         //폴더 생성
