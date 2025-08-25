@@ -40,10 +40,10 @@ public class UserPrincipal implements UserDetails, OAuth2User {
     public String getPassword() { return null; }
 
     @Override
-    public String getUsername() { return null; }
+    public String getUsername() { return String.valueOf(jwtUser.getSignedUserId()); }
 
     @Override
-    public String getName() { return ""; }
+    public String getName() { return String.valueOf(jwtUser.getSignedUserId()); }
 
     @Override
     public Map<String, Object> getAttributes() { return Map.of(); }

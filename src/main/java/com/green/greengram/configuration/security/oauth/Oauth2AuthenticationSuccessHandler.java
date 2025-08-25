@@ -61,6 +61,11 @@ public class Oauth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         String accessToken = jwtTokenManager.generateAccessToken(jwtUser);
         String refreshToken = jwtTokenManager.generateRefreshToken(jwtUser);
 
+        cookieUtils.setCookie(res, constJwt.getAccessTokenCookieName()
+                                 , accessToken
+                                 , constJwt.getAccessTokenCookieValiditySeconds()
+                                 , constJwt.getAccessTokenCookiePath());
+
         cookieUtils.setCookie(res, constJwt.getRefreshTokenCookieName()
                                  , refreshToken
                                  , constJwt.getRefreshTokenCookieValiditySeconds()

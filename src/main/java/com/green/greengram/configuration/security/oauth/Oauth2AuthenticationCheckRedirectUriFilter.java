@@ -32,8 +32,8 @@ public class Oauth2AuthenticationCheckRedirectUriFilter extends OncePerRequestFi
         if(requestUri.startsWith(constOAuth2.baseUri)) { //소셜로그인 요청한 것이라면
             String redirectUri = request.getParameter("redirect_uri");
             if(redirectUri != null && !hasAuthorizedRedirectUri(redirectUri)) { //약속한 redirect_uri값이 아니었다면
-                String errRedirectUrl = UriComponentsBuilder.fromUriString("/err_message")
-                                                            .queryParam("message", "유효한 Redirect URL이 아닙니다.").encode()
+                String errRedirectUrl = UriComponentsBuilder.fromUriString(redirectUri)
+                                                            .queryParam("errer", "유효한 Redirect URL이 아닙니다.").encode()
                                                             .toUriString();
                 //errRedirectUrl = "/err_message?message=유효한 Redirect URL이 아닙니다."
                 response.sendRedirect(errRedirectUrl);
