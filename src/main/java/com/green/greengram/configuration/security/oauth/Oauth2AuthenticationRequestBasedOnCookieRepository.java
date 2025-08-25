@@ -52,7 +52,7 @@ public class Oauth2AuthenticationRequestBasedOnCookieRepository
     }
 
     public void removeAuthorizationCookies(HttpServletResponse response) {
-        cookieUtils.deleteCookie(response, constOAuth2.authorizationRequestCookieName);
-        cookieUtils.deleteCookie(response, constOAuth2.redirectUriParamCookieName);
+        cookieUtils.deleteCookie(response, constOAuth2.authorizationRequestCookieName, "/");
+        cookieUtils.deleteCookie(response, constOAuth2.redirectUriParamCookieName, "/");
     }
 }

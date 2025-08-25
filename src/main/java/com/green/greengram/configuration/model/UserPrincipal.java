@@ -16,13 +16,13 @@ import java.util.Map;
 @Slf4j
 @Getter
 public class UserPrincipal implements UserDetails, OAuth2User {
-    private final long signedUserId;
+    private final JwtUser jwtUser;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(long signedUserId, List<EnumUserRole> roles) {
-        this.signedUserId = signedUserId;
+    public UserPrincipal(JwtUser jwtUser) {
+        this.jwtUser = jwtUser;
         List<SimpleGrantedAuthority> list = new ArrayList<>();
-        for(EnumUserRole role : roles){
+        for(EnumUserRole role : jwtUser.getRoles()){
             String roleName = String.format("ROLE_%s", role.name());
             log.info("roleName: {}", roleName);
             list.add(new SimpleGrantedAuthority(roleName));
@@ -30,6 +30,10 @@ public class UserPrincipal implements UserDetails, OAuth2User {
         this.authorities = list;
 
         //this.authorities = roles.stream().map(role -> new SimpleGrantedAuthority(String.format("ROLE_%s", role.name()))).toList();
+    }
+
+    public Long getSignedUserId() {
+        return jwtUser.getSignedUserId();
     }
 
     @Override

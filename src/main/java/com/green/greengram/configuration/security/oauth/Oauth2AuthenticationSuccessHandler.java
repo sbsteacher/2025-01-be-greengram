@@ -1,10 +1,12 @@
 package com.green.greengram.configuration.security.oauth;
 
-import com.green.greengram.configuration.CookieUtils;
+
+import com.green.greengram.configuration.constants.ConstJwt;
 import com.green.greengram.configuration.constants.ConstOAuth2;
-import com.green.greengram.configuration.jwt.JwtUser;
-import com.green.greengram.configuration.jwt.TokenProvider;
-import com.green.greengram.configuration.security.MyUserDetails;
+import com.green.greengram.configuration.jwt.JwtTokenManager;
+import com.green.greengram.configuration.model.JwtUser;
+import com.green.greengram.configuration.model.UserPrincipal;
+import com.green.greengram.configuration.util.CookieUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,9 +24,10 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class Oauth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final Oauth2AuthenticationRequestBasedOnCookieRepository repository;
-    private final TokenProvider tokenProvider;
+    private final JwtTokenManager jwtTokenManager;
     private final ConstOAuth2 constOAuth2;
     private final CookieUtils cookieUtils;
+    private final ConstJwt constJwt;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse res, Authentication auth)
@@ -41,40 +44,39 @@ public class Oauth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     @Override
     protected String determineTargetUrl(HttpServletRequest req, HttpServletResponse res, Authentication auth) {
-        String redirectUrl = cookieUtils.getValue(req, constOAuth2.getRedirectUriParamCookieName(), String.class);
+        String redirectUrl = cookieUtils.getValue(req, constOAuth2.redirectUriParamCookieName, String.class);
 
         log.info("determineTargetUrl > getDefaultTargetUrl(): {}", getDefaultTargetUrl());
 
         String targetUrl = redirectUrl == null ? getDefaultTargetUrl() : redirectUrl;
 
         //쿼리스트링 생성을 위한 준비과정
-        MyUserDetails myUserDetails = (MyUserDetails) auth.getPrincipal();
-        OAuth2JwtUser oAuth2JwtUser = (OAuth2JwtUser)myUserDetails.getJwtUser();
+        UserPrincipal myUserDetails = (UserPrincipal) auth.getPrincipal();
 
-        JwtUser jwtUser = new JwtUser(oAuth2JwtUser.getSignedUserId(), oAuth2JwtUser.getRoles());
+        OAuth2JwtUser jwtUser = (OAuth2JwtUser)myUserDetails.getJwtUser();
 
         //AT, RT 생성
-        String accessToken = tokenProvider.generateAccessToken(jwtUser);
-        String refreshToken = tokenProvider.generateRefreshToken(jwtUser);
+        String accessToken = jwtTokenManager.generateAccessToken(jwtUser);
+        String refreshToken = jwtTokenManager.generateRefreshToken(jwtUser);
 
-        int maxAge = 1_296_000; //15 * 24 * 60 * 60, 15일의 초(second)값
-        cookieUtils.setCookie(res, "refreshToken", refreshToken, maxAge, "/api/user/access-token");
+        cookieUtils.setCookie(res, constJwt.getRefreshTokenCookieName()
+                                 , refreshToken
+                                 , constJwt.getRefreshTokenCookieValiditySeconds()
+                                 , constJwt.getRefreshTokenCookiePath());
 
         /*
             쿼리스트링 생성
             targetUrl: /fe/redirect
-            accessToken: aaa
             userId: 20
             nickName: 홍길동
             pic: abc.jpg
             값이 있다고 가정하고
-            "fe/redirect?access_token=aaa&user_id=20&nick_name=홍길동&pic=abc.jpg"
+            "fe/redirect?user_id=20&nick_name=홍길동&pic=abc.jpg"
          */
         return UriComponentsBuilder.fromUriString(targetUrl)
-                .queryParam("access_token", accessToken)
-                .queryParam("user_id", oAuth2JwtUser.getSignedUserId())
-                .queryParam("nick_name", oAuth2JwtUser.getNickName()).encode()
-                .queryParam("pic", oAuth2JwtUser.getPic())
+                .queryParam("user_id", jwtUser.getSignedUserId())
+                .queryParam("nick_name", jwtUser.getNickName()).encode()
+                .queryParam("pic", jwtUser.getPic())
                 .build()
                 .toUriString();
     }
