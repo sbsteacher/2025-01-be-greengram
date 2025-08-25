@@ -1,9 +1,8 @@
 package com.green.greengram.application.feed;
 
 import com.green.greengram.application.feed.model.*;
-import com.green.greengram.config.model.ResultResponse;
-import com.green.greengram.config.model.UserPrincipal;
-import com.green.greengram.entity.Feed;
+import com.green.greengram.configuration.model.ResultResponse;
+import com.green.greengram.configuration.model.UserPrincipal;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;

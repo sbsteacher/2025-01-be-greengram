@@ -4,7 +4,7 @@ import com.green.greengram.application.feedcomment.model.FeedCommentGetReq;
 import com.green.greengram.application.feedcomment.model.FeedCommentGetRes;
 import com.green.greengram.application.feedcomment.model.FeedCommentItem;
 import com.green.greengram.application.feedcomment.model.FeedCommentPostReq;
-import com.green.greengram.config.constants.ConstComment;
+import com.green.greengram.configuration.constants.ConstComment;
 import com.green.greengram.entity.Feed;
 import com.green.greengram.entity.FeedComment;
 import com.green.greengram.entity.User;

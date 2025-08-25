@@ -1,6 +1,6 @@
 package com.green.greengram.application.user.model;
 
-import com.green.greengram.config.model.JwtUser;
+import com.green.greengram.configuration.model.JwtUser;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -1,9 +1,9 @@
 package com.green.greengram.application.user;
 
 import com.green.greengram.application.user.model.*;
-import com.green.greengram.config.jwt.JwtTokenManager;
-import com.green.greengram.config.model.ResultResponse;
-import com.green.greengram.config.model.UserPrincipal;
+import com.green.greengram.configuration.jwt.JwtTokenManager;
+import com.green.greengram.configuration.model.ResultResponse;
+import com.green.greengram.configuration.model.UserPrincipal;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;

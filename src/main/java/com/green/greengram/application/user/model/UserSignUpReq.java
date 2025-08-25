@@ -1,6 +1,6 @@
 package com.green.greengram.application.user.model;
 
-import com.green.greengram.config.enumcode.model.EnumUserRole;
+import com.green.greengram.configuration.enumcode.model.EnumUserRole;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.ToString;

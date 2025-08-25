@@ -1,15 +1,13 @@
 package com.green.greengram.application.follow;
 
 import com.green.greengram.application.follow.model.FollowPostReq;
-import com.green.greengram.config.model.ResultResponse;
-import com.green.greengram.config.model.UserPrincipal;
+import com.green.greengram.configuration.model.ResultResponse;
+import com.green.greengram.configuration.model.UserPrincipal;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j

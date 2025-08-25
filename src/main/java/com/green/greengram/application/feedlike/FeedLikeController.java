@@ -1,9 +1,8 @@
 package com.green.greengram.application.feedlike;
 
 import com.green.greengram.application.feedlike.model.FeedLikeToggleReq;
-import com.green.greengram.config.model.ResultResponse;
-import com.green.greengram.config.model.UserPrincipal;
-import com.green.greengram.entity.FeedLike;
+import com.green.greengram.configuration.model.ResultResponse;
+import com.green.greengram.configuration.model.UserPrincipal;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
