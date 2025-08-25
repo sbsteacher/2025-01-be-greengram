@@ -53,7 +53,9 @@ public class Oauth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         //쿼리스트링 생성을 위한 준비과정
         UserPrincipal myUserDetails = (UserPrincipal) auth.getPrincipal();
 
-        OAuth2JwtUser jwtUser = (OAuth2JwtUser)myUserDetails.getJwtUser();
+        OAuth2JwtUser oauth2JwtUser = (OAuth2JwtUser)myUserDetails.getJwtUser();
+
+        JwtUser jwtUser = new JwtUser(oauth2JwtUser.getSignedUserId(), oauth2JwtUser.getRoles());
 
         //AT, RT 생성
         String accessToken = jwtTokenManager.generateAccessToken(jwtUser);
@@ -74,9 +76,9 @@ public class Oauth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             "fe/redirect?user_id=20&nick_name=홍길동&pic=abc.jpg"
          */
         return UriComponentsBuilder.fromUriString(targetUrl)
-                .queryParam("user_id", jwtUser.getSignedUserId())
-                .queryParam("nick_name", jwtUser.getNickName()).encode()
-                .queryParam("pic", jwtUser.getPic())
+                .queryParam("user_id", oauth2JwtUser.getSignedUserId())
+                .queryParam("nick_name", oauth2JwtUser.getNickName()).encode()
+                .queryParam("pic", oauth2JwtUser.getPic())
                 .build()
                 .toUriString();
     }
