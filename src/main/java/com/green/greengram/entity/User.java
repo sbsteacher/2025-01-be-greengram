@@ -1,6 +1,7 @@
 package com.green.greengram.entity;
 
 import com.green.greengram.configuration.enumcode.model.EnumUserRole;
+import com.green.greengram.configuration.security.SignInProviderType;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -13,12 +14,18 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode
+@Table(
+    uniqueConstraints = @UniqueConstraint(columnNames = { "uid", "provider_type" })
+)
 public class User extends UpdatedAt{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(nullable = false, length = 50, unique = true)
+    @Column(nullable = false, length = 2)
+    private SignInProviderType providerType;
+
+    @Column(nullable = false, length = 50)
     private String uid;
 
     @Column(nullable = false, length = 100)
