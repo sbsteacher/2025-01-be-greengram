@@ -1,6 +1,6 @@
 package com.green.greengram.configuration.security.oauth;
 
-import com.green.greengram.configuration.CookieUtils;
+import com.green.greengram.configuration.util.CookieUtils;
 import com.green.greengram.configuration.constants.ConstOAuth2;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,7 +22,7 @@ public class Oauth2AuthenticationRequestBasedOnCookieRepository
     @Override
     public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
         return cookieUtils.getValue(request
-                                  , constOAuth2.getAuthorizationRequestCookieName()
+                                  , constOAuth2.authorizationRequestCookieName
                                   , OAuth2AuthorizationRequest.class);
     }
 
@@ -32,17 +32,17 @@ public class Oauth2AuthenticationRequestBasedOnCookieRepository
             this.removeAuthorizationCookies(response);
         }
         cookieUtils.setCookie(response
-                            , constOAuth2.getAuthorizationRequestCookieName()
+                            , constOAuth2.authorizationRequestCookieName
                             , authorizationRequest
-                            , constOAuth2.getCookieExpirySeconds()
+                            , constOAuth2.cookieExpirySeconds
                             , "/");
 
         //FE 요청한 redirect_uri 쿠키에 저장한다.
-        String redirectUriAfterLogin = request.getParameter(constOAuth2.getRedirectUriParamCookieName());
+        String redirectUriAfterLogin = request.getParameter(constOAuth2.redirectUriParamCookieName);
         cookieUtils.setCookie(response
-                , constOAuth2.getRedirectUriParamCookieName()
+                , constOAuth2.redirectUriParamCookieName
                 , redirectUriAfterLogin
-                , constOAuth2.getCookieExpirySeconds()
+                , constOAuth2.cookieExpirySeconds
                 , "/");
     }
 
@@ -52,7 +52,7 @@ public class Oauth2AuthenticationRequestBasedOnCookieRepository
     }
 
     public void removeAuthorizationCookies(HttpServletResponse response) {
-        cookieUtils.deleteCookie(response, constOAuth2.getAuthorizationRequestCookieName());
-        cookieUtils.deleteCookie(response, constOAuth2.getRedirectUriParamCookieName());
+        cookieUtils.deleteCookie(response, constOAuth2.authorizationRequestCookieName);
+        cookieUtils.deleteCookie(response, constOAuth2.redirectUriParamCookieName);
     }
 }
