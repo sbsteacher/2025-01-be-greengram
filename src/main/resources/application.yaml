@@ -33,8 +33,7 @@ constants:
     authorized-redirect-uris:
       - http://localhost:5173/fe/redirect
       - http://112.222.157.157:5174/fe/redirect
-  feign-client:
-    kakao-api: https://kauth.kakao.com
+
 
 spring:
   application:

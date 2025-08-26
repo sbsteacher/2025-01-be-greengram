@@ -1,7 +1,6 @@
 package com.green.greengram.application.user;
 
 import com.green.greengram.application.user.model.*;
-import com.green.greengram.configuration.constants.ConstOauth2Naver;
 import com.green.greengram.configuration.enumcode.model.EnumUserRole;
 import com.green.greengram.configuration.model.JwtUser;
 import com.green.greengram.configuration.security.SignInProviderType;
@@ -25,7 +24,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ImgUploadManager imgUploadManager;
-    private final ConstOauth2Naver constOauth2Naver;
 
     @Transactional
     public void signUp(UserSignUpReq req, MultipartFile pic) {
@@ -47,7 +45,7 @@ public class UserService {
     }
 
     public UserSignInDto signIn(UserSignInReq req) {
-        User user = userRepository.findByUid(req.getUid()); //일치하는 아이디가 있는지 확인, null이 넘어오면 uid가 없음
+        User user = userRepository.findByUidAndProviderType(req.getUid(), SignInProviderType.LOCAL); //일치하는 아이디가 있는지 확인, null이 넘어오면 uid가 없음
         //passwordEncoder 내부에는 jbcrypt 객체가 있다.
         if(user == null || !passwordEncoder.matches(req.getUpw(), user.getUpw())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "아이디/비밀번호를 확인해 주세요.");
