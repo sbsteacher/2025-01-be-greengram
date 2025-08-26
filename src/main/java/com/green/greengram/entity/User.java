@@ -22,6 +22,9 @@ public class User extends UpdatedAt{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    @Column(length = 100)
+    private String accessToken;
+
     @Column(nullable = false, length = 2)
     private SignInProviderType providerType;
 

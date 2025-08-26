@@ -40,7 +40,9 @@ public class UserController {
     }
 
     @PostMapping("/sign-out")
-    public ResultResponse<?> signOut(HttpServletResponse response) {
+    public ResultResponse<?> signOut(@AuthenticationPrincipal UserPrincipal userPrincipal
+                                   , HttpServletResponse response) {
+        userService.signOut(userPrincipal.getSignedUserId());
         jwtTokenManager.signOut(response);
         return new ResultResponse<>("sign-out 성공", null);
     }

@@ -57,19 +57,20 @@ public class Oauth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         JwtUser jwtUser = new JwtUser(oauth2JwtUser.getSignedUserId(), oauth2JwtUser.getRoles());
 
-        //AT, RT 생성
-        String accessToken = jwtTokenManager.generateAccessToken(jwtUser);
-        String refreshToken = jwtTokenManager.generateRefreshToken(jwtUser);
-
-        cookieUtils.setCookie(res, constJwt.getAccessTokenCookieName()
-                                 , accessToken
-                                 , constJwt.getAccessTokenCookieValiditySeconds()
-                                 , constJwt.getAccessTokenCookiePath());
-
-        cookieUtils.setCookie(res, constJwt.getRefreshTokenCookieName()
-                                 , refreshToken
-                                 , constJwt.getRefreshTokenCookieValiditySeconds()
-                                 , constJwt.getRefreshTokenCookiePath());
+        //AT, RT 생성 후 쿠키에 저장
+        jwtTokenManager.issue(res, jwtUser);
+//        String accessToken = jwtTokenManager.generateAccessToken(jwtUser);
+//        String refreshToken = jwtTokenManager.generateRefreshToken(jwtUser);
+//
+//        cookieUtils.setCookie(res, constJwt.getAccessTokenCookieName()
+//                                 , accessToken
+//                                 , constJwt.getAccessTokenCookieValiditySeconds()
+//                                 , constJwt.getAccessTokenCookiePath());
+//
+//        cookieUtils.setCookie(res, constJwt.getRefreshTokenCookieName()
+//                                 , refreshToken
+//                                 , constJwt.getRefreshTokenCookieValiditySeconds()
+//                                 , constJwt.getRefreshTokenCookiePath());
 
         /*
             쿼리스트링 생성

@@ -28,6 +28,7 @@ constants:
     # 연결시키기 위해 쿠키를 사용한다.
     authorization-request-cookie-name: oauth2_auth_request
     redirect-uri-param-cookie-name: redirect_uri
+    redirection-baseUri: /*/oauth2/code/*
     cookie-expiry-seconds: 180
     authorized-redirect-uris:
       - http://localhost:5173/fe/redirect
@@ -62,9 +63,9 @@ spring:
       client:
         provider:
           kakao:
-            authorization-uri: https://kauth.kakao.com/oauth/authorize #카카오 인증처리 URL
+            authorization-uri: https://kauth.kakao.com/oauth/authorize #카카오 인가코드 요청 URL
             token-uri: https://kauth.kakao.com/oauth/token #토큰(JWT) 받을 때 사용하는 URL
-            user-info-uri: https://kapi.kakao.com/v2/user/me # 유저 정보 얻을 때 사용하는 URL
+            user-info-uri: https://kapi.kakao.com/v2/user/me #유저 정보 얻을 때 사용하는 URL
             user-name-attribute: id
           naver:
             authorization-uri: https://nid.naver.com/oauth2.0/authorize
@@ -80,8 +81,8 @@ spring:
               - profile
           kakao:
             client-name: Kakao
-            client-id: abc
-            client-secret: abc
+            client-id: 23cc7564b5c5007c60f5088a24f32fbe
+            client-secret: UsaYUJvlEy5yNfOMKNrgXbbes6WCYfod
             client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"

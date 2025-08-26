@@ -9,6 +9,7 @@ import java.util.Optional;
         "name": 이름값,
         "email": 이메일,
         "nickname": 닉네임
+        "profile_image": 프로파일 이미지
     }
 
 

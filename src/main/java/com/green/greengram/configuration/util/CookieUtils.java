@@ -22,7 +22,9 @@ public class CookieUtils {
      */
     public void setCookie(HttpServletResponse response, String name, String value, int maxAge, String path) {
         Cookie cookie = new Cookie(name, value);
-        cookie.setPath(path);
+        if(path != null) {
+            cookie.setPath(path);
+        }
         cookie.setMaxAge(maxAge);
         cookie.setHttpOnly(true); //보안 쿠키 설정
         response.addCookie(cookie);

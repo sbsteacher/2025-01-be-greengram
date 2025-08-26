@@ -75,6 +75,12 @@ public class JwtTokenManager {
         return jwtTokenProvider.getJwtUserFromToken(token);
     }
 
+    private void deleteSocialLogin(HttpServletResponse response) {
+        cookieUtils.deleteCookie(response, "JSESSIONID", null);
+        cookieUtils.deleteCookie(response, "Authorization", null);
+        cookieUtils.deleteCookie(response, "RefreshToken", null);
+    }
+
     public void reissue(HttpServletRequest request, HttpServletResponse response) {
         //request에서 refreshToken을 얻는다.
         String refreshToken = getRefreshTokenFromCookie(request);
@@ -92,6 +98,7 @@ public class JwtTokenManager {
     public void signOut(HttpServletResponse response) {
         deleteAccessTokenInCookie(response);
         deleteRefreshTokenInCookie(response);
+        deleteSocialLogin(response);
     }
 
     public Authentication getAuthentication(HttpServletRequest request) {

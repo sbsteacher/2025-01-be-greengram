@@ -11,6 +11,7 @@ public class ConstOAuth2 {
     public final String baseUri;
     public final String authorizationRequestCookieName;
     public final String redirectUriParamCookieName;
+    public final String ddd;
     public final int cookieExpirySeconds;
     public final List<String> authorizedRedirectUris;
 }
