@@ -7,8 +7,6 @@ import com.green.greengram.configuration.model.JwtUser;
 import com.green.greengram.configuration.security.SignInProviderType;
 import com.green.greengram.configuration.util.ImgUploadManager;
 import com.green.greengram.entity.User;
-import com.green.greengram.openfeign.kakaoapi.KakaoApiClient;
-import com.green.greengram.openfeign.kakaoapi.model.KakaoApiLogoutRes;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,13 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
 import java.util.List;
 
 @Slf4j
@@ -35,8 +26,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final ImgUploadManager imgUploadManager;
     private final ConstOauth2Naver constOauth2Naver;
-
-    private final KakaoApiClient kakaoApiClient;
 
     @Transactional
     public void signUp(UserSignUpReq req, MultipartFile pic) {
