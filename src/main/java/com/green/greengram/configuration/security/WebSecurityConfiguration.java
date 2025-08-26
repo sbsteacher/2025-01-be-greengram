@@ -60,7 +60,7 @@ public class WebSecurityConfiguration {
                    .oauth2Login(oauth2 -> oauth2.authorizationEndpoint( auth -> auth.baseUri(constOAuth2.baseUri)
                                                                                     .authorizationRequestRepository(repository)
                                           )
-                                          .redirectionEndpoint( redirection -> redirection.baseUri("/*/oauth2/code/*") )
+                                          .redirectionEndpoint( redirection -> redirection.baseUri(constOAuth2.redirectionBaseUri) )
                                           .userInfoEndpoint( userInfo -> userInfo.userService(myOauth2UserService) )
                                           .successHandler( authenticationSuccessHandler )
                                           .failureHandler( authenticationFailureHandler )

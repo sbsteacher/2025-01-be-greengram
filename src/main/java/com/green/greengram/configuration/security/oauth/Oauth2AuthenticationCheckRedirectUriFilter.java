@@ -33,9 +33,9 @@ public class Oauth2AuthenticationCheckRedirectUriFilter extends OncePerRequestFi
             String redirectUri = request.getParameter("redirect_uri");
             if(redirectUri != null && !hasAuthorizedRedirectUri(redirectUri)) { //약속한 redirect_uri값이 아니었다면
                 String errRedirectUrl = UriComponentsBuilder.fromUriString(redirectUri)
-                                                            .queryParam("errer", "유효한 Redirect URL이 아닙니다.").encode()
+                                                            .queryParam("error", "유효한 Redirect URL이 아닙니다.").encode()
                                                             .toUriString();
-                //errRedirectUrl = "/err_message?message=유효한 Redirect URL이 아닙니다."
+                //errRedirectUrl = "/fe/direct?error=유효한 Redirect URL이 아닙니다."
                 response.sendRedirect(errRedirectUrl);
                 return;
             }
