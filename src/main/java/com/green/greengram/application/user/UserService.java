@@ -7,6 +7,8 @@ import com.green.greengram.configuration.model.JwtUser;
 import com.green.greengram.configuration.security.SignInProviderType;
 import com.green.greengram.configuration.util.ImgUploadManager;
 import com.green.greengram.entity.User;
+import com.green.greengram.openfeign.kakaoapi.KakaoApiClient;
+import com.green.greengram.openfeign.kakaoapi.model.KakaoApiLogoutRes;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final ImgUploadManager imgUploadManager;
     private final ConstOauth2Naver constOauth2Naver;
+
+    private final KakaoApiClient kakaoApiClient;
 
     @Transactional
     public void signUp(UserSignUpReq req, MultipartFile pic) {
@@ -86,16 +90,6 @@ public class UserService {
                             .build();
     }
 
-    public void signOut(Long signedUserId) {
-        User user = userRepository.findById(signedUserId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 사용자입니다."));
-        switch(user.getProviderType()) {
-            case KAKAO -> kakaoLogout(user.getAccessToken());
-            case NAVER -> naverLogout(user.getAccessToken());
-            case GOOGLE -> googleLogout(user.getAccessToken());
-        }
-    }
-
     public UserProfileGetRes getProfileUser(UserProfileGetDto dto) {
         return userMapper.findProfileByUserId(dto);
     }
@@ -116,68 +110,5 @@ public class UserService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 사용자입니다."));
         imgUploadManager.removeProfileDirectory(signedUserId);
         user.setPic(null);
-    }
-
-    private void naverLogout(String accessToken) {
-        String params = String.format("grant_type=delete&service_provider=NAVER&client_id=%s&client_secret=%s&access_token=%s"
-                                     , constOauth2Naver.clientId, constOauth2Naver.clientSecret, accessToken);
-        try {
-            URL url = new URL("https://nid.naver.com/oauth2.0/token?" + params);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-            String result = "";
-            String line = "";
-
-            while ((line = br.readLine()) != null) {
-                result += line;
-            }
-            log.info("naver-logout: {}", result);
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-    }
-
-    private void kakaoLogout(String accessToken) {
-        String reqURL = "https://kapi.kakao.com/v1/user/logout";
-        try {
-            URL url = new URL(reqURL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Authorization", "Bearer " + accessToken);
-
-            int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-            String result = "";
-            String line = "";
-
-            while ((line = br.readLine()) != null) {
-                result += line;
-            }
-            log.info("kakao-logout: {}", result);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    private void googleLogout(String accessToken) {
-        String tokenInfoUrl = "https://oauth2.googleapis.com/tokeninfo?access_token=" + accessToken;
-        try {
-            URL url = new URL(tokenInfoUrl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            int responseCode = conn.getResponseCode();
-            System.out.println("Google Logout Response Code: " + responseCode);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
