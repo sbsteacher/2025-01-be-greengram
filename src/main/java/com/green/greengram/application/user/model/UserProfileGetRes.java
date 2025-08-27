@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class UserProfileGetRes {
-    private long userId;
+    private Long userId;
     private String pic;
     private String createdAt;
     private String uid;

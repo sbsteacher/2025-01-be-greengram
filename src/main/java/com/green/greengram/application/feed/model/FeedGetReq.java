@@ -21,11 +21,15 @@ public class FeedGetReq {
     @Positive
     private Long profileUserId;
 
+    private String keyword;
+
     public FeedGetReq(Integer page
                     , @BindParam("row_per_page") Integer rowPerPage
-                    , @BindParam("profile_user_id") Long profileUserId) {
+                    , @BindParam("profile_user_id") Long profileUserId
+                    , String keyword) {
         this.page = page;
         this.rowPerPage = rowPerPage;
         this.profileUserId = profileUserId;
+        this.keyword = keyword;
     }
 }

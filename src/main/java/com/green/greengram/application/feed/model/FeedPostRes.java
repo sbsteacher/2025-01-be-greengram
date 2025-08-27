@@ -7,6 +7,6 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class FeedPostRes {
-    private long feedId;
+    private Long feedId;
     private List<String> pics;
 }

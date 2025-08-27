@@ -18,9 +18,14 @@
                  GROUP BY feed_id
              ) flc
             ON flc.feed_id = f.feed_id
-         <if test="profileUserId != null">
-             WHERE f.writer_user_id = #{profileUserId}
-         </if>
+         <where>
+             <if test="profileUserId != null and profileUserId > 0">
+                 f.writer_user_id = #{profileUserId}
+             </if>
+             <if test="keyword != null">
+                AND (f.contents = #{keyword} OR f.location = #{keyword})
+             </if>
+         </where>
          ORDER BY f.feed_id DESC
          LIMIT #{startIdx}, #{size}
     </select>
@@ -28,6 +33,16 @@
     <select id="findAllPicByFeedId">
         SELECT pic FROM feed_pic
          WHERE feed_id = #{feedId}
+    </select>
+
+    <select id="findAllByKeyword">
+        SELECT contents AS keyword
+          FROM feed
+         WHERE contents LIKE '%${keyword}%'
+         UNION ALL
+        SELECT location
+          FROM feed
+         WHERE location LIKE '%${keyword}%'
     </select>
 
 </mapper>

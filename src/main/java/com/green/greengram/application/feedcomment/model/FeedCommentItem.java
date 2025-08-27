@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public class FeedCommentItem {
-    private long feedCommentId;
+    private Long feedCommentId;
     private String comment;
-    private long writerUserId;
+    private Long writerUserId;
     private String writerUid;
     private String writerNickName;
     private String writerPic;
