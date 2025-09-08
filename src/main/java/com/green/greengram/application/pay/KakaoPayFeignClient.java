@@ -1,7 +1,5 @@
 package com.green.greengram.application.pay;
 
-
-
 import com.green.greengram.application.pay.model.KakaoPayApproveFeignReq;
 import com.green.greengram.application.pay.model.KakaoPayApproveRes;
 import com.green.greengram.application.pay.model.KakaoPayReadyFeignReq;
