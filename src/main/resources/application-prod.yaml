@@ -18,3 +18,5 @@ spring:
     init:
       mode: never
 
+server:
+  port: 80
