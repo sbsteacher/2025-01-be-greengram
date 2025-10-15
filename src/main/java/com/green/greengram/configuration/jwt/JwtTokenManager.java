@@ -28,7 +28,7 @@ public class JwtTokenManager {
     }
 
     public String generateAccessToken(JwtUser jwtUser) {
-        return jwtTokenProvider.generateToken(jwtUser, constJwt.getAccessTokenValidityMilliseconds());
+        return jwtTokenProvider.generateAccessToken(jwtUser);
     }
 
     public void setAccessTokenInCookie(HttpServletResponse response, JwtUser jwtUser) {
@@ -52,7 +52,7 @@ public class JwtTokenManager {
     }
 
     public String generateRefreshToken(JwtUser jwtUser) {
-        return jwtTokenProvider.generateToken(jwtUser, constJwt.getRefreshTokenValidityMilliseconds());
+        return jwtTokenProvider.generateRefreshToken(jwtUser);
     }
 
     public void setRefreshTokenInCookie(HttpServletResponse response, JwtUser jwtUser) {

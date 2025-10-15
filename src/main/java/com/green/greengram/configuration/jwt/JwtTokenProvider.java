@@ -29,10 +29,18 @@ public class JwtTokenProvider {
         this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(constJwt.getSecretKey()));
     }
 
+    public String generateAccessToken(JwtUser jwtUser) {
+        return generateToken(jwtUser, constJwt.getAccessTokenValidityMilliseconds());
+    }
+
+    public String generateRefreshToken(JwtUser jwtUser) {
+        return generateToken(jwtUser, constJwt.getRefreshTokenValidityMilliseconds());
+    }
+
     // JWT 토큰 생성
     // Date to LocalDateTime
     // https://medium.com/@201924576/spring-boot-jwts-%EB%A5%BC-localdatetime-%EC%9C%BC%EB%A1%9C-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0-61fa0a902ccb
-    public String generateToken(JwtUser jwtUser, long tokenValidityMilliSeconds) {
+    private String generateToken(JwtUser jwtUser, long tokenValidityMilliSeconds) {
         Date now = new Date(); //Data객체를 기본생성자로 만들면 현재일시 정보로 객체화
         return Jwts.builder()
                 //header

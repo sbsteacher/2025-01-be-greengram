@@ -49,6 +49,8 @@ spring:
   application:
     name: greengram
   datasource:
+    hikari:
+      max-lifetime: 300_000
     url: jdbc:log4jdbc:mariadb://localhost/greengram
     username: root
     password: green502
@@ -98,7 +100,6 @@ spring:
             redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
             scope:
               - profile_nickname
-              - profile_image
             # baseUrl: 서버가 돌아가고 있는 host 주소값
             # action: login
             # registrationId: kakao
@@ -125,6 +126,10 @@ spring:
     init:
       mode: always
 
+logging:
+  level:
+    jdbc.connection : INFO
+    com.zaxxer.hikari.HikariDataSource: INFO
 
 
 mybatis:

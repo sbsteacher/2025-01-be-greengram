@@ -20,7 +20,7 @@ import java.util.function.Function;
 
 @FunctionalInterface
 interface MyInterface {
-    void sum();
+    void plus();
 }
 
 class MyFunction implements Function<UserRole, EnumUserRole> {
@@ -81,18 +81,18 @@ public class UserService {
 //        }
 
         List<EnumUserRole> roles = user.getUserRoles().stream().map(item -> item.getUserRoleIds().getRoleCode()).toList();
-        List<EnumUserRole> roles2 = user.getUserRoles().stream().map(new Function<UserRole, EnumUserRole>(){
-            @Override
-            public EnumUserRole apply(UserRole item) {
-                return item.getUserRoleIds().getRoleCode();
-            }
-
-        }).toList();
-        List<EnumUserRole> roles3 = user.getUserRoles().stream().map(new MyFunction()).toList();
+        //아래 두 개 코드는 위 코드와 동일하다.
+//        List<EnumUserRole> roles2 = user.getUserRoles().stream().map(new Function<UserRole, EnumUserRole>(){
+//            @Override
+//            public EnumUserRole apply(UserRole item) {
+//                return item.getUserRoleIds().getRoleCode();
+//            }
+//
+//        }).toList();
+//        List<EnumUserRole> roles3 = user.getUserRoles().stream().map(new MyFunction()).toList();
 
         log.info("roles: {}", roles);
         JwtUser jwtUser = new JwtUser(user.getUserId(), roles);
-
 
         UserSignInRes userSignInRes = UserSignInRes.builder()
                 .userId(user.getUserId()) //프로필 사진 표시 때 사용
